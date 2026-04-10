@@ -1,0 +1,229 @@
+<html>
+<button id="button_div">RUN SCRIPT</button>
+<br>----- INPUT ------------ 
+<br><textarea id = "textarea_in_div" rows=15 cols=80> </textarea>
+<br> --------------OUTPUT----
+<br><textarea id = "textarea_out_div" rows=15 cols=80> </textarea>
+<script language="javascript">
+var textarea_in_div = document.getElementById("textarea_in_div");
+var textarea_out_div = document.getElementById("textarea_out_div");
+var button_div = document.getElementById("button_div");
+
+
+// MAIN LOOP:
+button_div.onclick = async function(){
+	console.log(111);
+	var tmpChoice = prompt(	
+`Type one:
+a) prettify JSON
+b) pull var from JSON
+c) convert old Scrapity data to new 
+`)
+	if(tmpChoice == null){ return;}
+	tmpChoice =tmpChoice.trim();
+
+	//prettify a json
+	if(tmpChoice=="a"){
+		if(!ROWS_IS_STRING_A_JSON( textarea_in_div.value)){
+		   return prompt("INCORRECTLY FORMATTED JSON, EXITING.");
+		}else{ // correctly formatted json
+		  textarea_out_div.value=
+			await pipe_(textarea_in_div.value, 
+				[[JSON.parse, PIPE_OUT],
+				[JSON.stringify, PIPE_OUT, null, 2]]);
+		return;}
+	}
+	if(tmpChoice=="a"){
+		if(!ROWS_IS_STRING_A_JSON( textarea_in_div.value)){
+		   return prompt("INCORRECTLY FORMATTED JSON, EXITING.");
+		}else{ // correctly formatted json
+		  textarea_out_div.value=
+			await pipe_(textarea_in_div.value, 
+				[[JSON.parse, PIPE_OUT],
+				[JSON.stringify, PIPE_OUT, null, 2]]);
+		return;}
+	}
+	if(tmpChoice=="b"){
+		if(!ROWS_IS_STRING_A_JSON( textarea_in_div.value)){
+		   return prompt("INCORRECTLY FORMATTED JSON, EXITING.");}
+		var tmpJSON = JSON.parse(textarea_in_div.value);
+		var tmpVarName = prompt("Enter VarName To Pull...");
+		if(tmpVarName == null){ return;}
+		textarea_out_div.value =  JSON.stringify( 
+			tmpJSON[tmpVarName], null,2);
+	}
+	if(tmpChoice=="c"){
+		if(!ROWS_IS_STRING_A_JSON( textarea_in_div.value)){
+		   return prompt("INCORRECTLY FORMATTED JSON, EXITING.");}
+		var tmpJSON = JSON.parse(textarea_in_div.value);
+		textarea_out_div.value = 
+		  await pipe_(tmpJSON,
+		     [[ Object.keys, tmpJSON],
+				
+		     [ ROWS_MAP, PIPE_OUT, 	
+		      function(a, c){ var tmpOut ={rsi:null, price:null,
+					_20sma:null, _50sma:null  }
+			tmpOut.ticker = a; tmpOut.date = c[a]; 
+			return tmpOut; },
+			tmpJSON],
+			  
+		     [JSON.stringify, PIPE_OUT, null,2]]);
+	}
+
+	
+}
+
+
+
+//////////////////////////////////////////////
+////////// :b:pipe_rows.js :b:  (OK after code, no calls out of functs)///
+//////////////////////////////////////////////
+//////////////////////////////////////////////
+var PIPE_OUT="PO-adfAFasdfjasld23289234"; var PIPE_GLOBAL_THIS= this; 
+if(PIPE_GLOBAL_THIS['file_input']==null){ var file_input=prompt; }
+// WARNING- ---===DATA IN, -ONE- DATA OUT--====---
+// 	--THINK- ArrayAsPipe.split(injectdata).join(...)-> ONE data out
+// 		(focus on DATA TRANSFORMATIONS INSIDE PIPE ITSELF)
+// 	--GOOD- ADDING DATA MID PIPE DIRECTLY INJECTED VIA SCRIPT/DATA!!!
+// 		(think 'awk' script running on data)(No altering extn data)
+//	--GOOD- PING USER/ REAL WORLD IF STAYS IN PIPE MID-PIPE:
+//		(think pinging a web server, OK if only getting data)
+// 	---BAD-  ANYTHING ALTERED OUTSIDE OF PIPE (again, function/w pipes)
+// 		-- ONE OUTPUT-ONLY ( do OUTSIDE of pipe) 
+// 	--USE SPARINGLY- logs, errors/state ONLY(like stderr)
+// 	--USE SPARINGLY- funct-names as strs 
+async function pipe_(getPIPE_IN,getP2d){
+     var tmpOUT=getPIPE_IN;var tmpVARS={}; 
+     for(var i2=0; i2<getP2d.length; i2+=1){var i_p = getP2d[i2].concat(); 
+		if(i_p[0] == PIPE_OUT){ i_p.shift();i_p[0]=tmpOUT[i_p[0]];} 
+		for(var i=0; i< i_p.length; i+=1){ //preprocessing...
+		   if(i_p[i] == PIPE_OUT){ i_p[i] = tmpOUT; continue;}}
+		var tmpF = i_p.shift(); //tmpF= tmpFUNCT, i_p was concat
+		if(typeof tmpF != "function"){
+		 if(typeof PIPE_GLOBAL_THIS[tmpF]=="function"){ 
+			tmpF = PIPE_GLOBAL_THIS[tmpF];
+		 }else{ file_input( //ERROR
+		  "pipe_-not found global funct for str named:"+tmpF); }}
+		tmpOUT = await tmpF.apply( tmpOUT, i_p); }
+	return tmpOUT; }
+// ONE AT A TIME (to preserve sanity for data)
+function ROWS_ADD_COL( getR, getN, getL){//rowList,COLname, list
+  for(var i=getR.length; i< getL.length; i+=1){getR[i] = {};}//fillin in...
+  for(var i=0; i< getL.length; i+=1){ getR[i][getN]=getL[i];} return getR;}
+function ROWS_ADD_MULTI_FROM_OBJ_OF_LISTS(getR, getO){//rowsAddToo, obj2use
+  // getO={ header:[..list...], header2:[...list...]...}
+  var k = Object.keys(getO); for(var i=0; i< k.length; i+=1){
+	ROWS_ADD_COL(getR, k[i], getO[k[i]]); } return getR; }
+function ROWS_DEL_COL( getR, getN ){// getRowList, getCOLName
+  for(var i=0; i< getR.length; i+=1){delete getR[i][ getN ];} return getR;}
+function ROWS_GET_COL(getR, getN){var tmpO =[];// getRowList, getCOLName 
+  for(var i=0;i< getR.length; i+=1){tmpO.push(getR[i][getN]);}return tmpO;}
+function ROWS_KEEP_COLS(getR, getNS){ // getRowList, getCOLNames_LIST
+  var tmpOut={}; for(var i_n=0;i_n<getNS.length;i_n+=1){var tmpN=getNS[i_n];
+    var tmpList= []; for(var i=0; i< getR.length; i+=1){	
+     tmpList.push(getR[i][ getN ]);} tmpOut[ tmpN]=tmpList;}return tmpOut;}
+// makes keys of all unique col-values, puts matchhing rows in kyes
+// 	(STR/NUMBER VOL_VALS) -- look up 'groupby' commands in general
+function ROWS_GROUPBY( getR, getN ){var tmpOut= {}; //getRows, getColName
+   for(var i=0; i< getR.length; i+=1){var i_v=getR[i][getN];
+	if( tmpOut[i_v] == undefined){tmpOut[i_v]= [];}
+	tmpOut[i_v].push(getR[i]); } return tmpOut; }
+function ROWS_TOCSV( getR, getDC, getDR){ //getRows, rowDelinator, colDelin
+	var tmpCols = Object.keys(getR[0]);var tmpOut =[];//to string
+	for(var i_r=0; i_r< getR.length; i_r+=1){
+		for(var i_c=0; i_c< tmpCols.length; i_c+=1){
+			tmpOut.push( getR[i_r][tmpCols[i_c]]);
+			tmpOut.push(getDC);  }
+		tmpOut.pop( ); tmpOut.push( getDR); }
+	tmpOut.pop( ); // above will put extra delin
+	return tmpCols.join( getDC) + getDR + tmpOut.join("" );}
+function ROWS_FROMCSV(getCSV, getDC, getDR){//getCSV,rowDelinator, colDelin
+  var tmpCols = getCSV.split(getDR);
+  var tmpHead = tmpCols.shift().split(getDC); 
+  for(var i=0; i<tmpCols.length;i+=1){
+		var tmpRow = {}; tmpCols[i] = tmpCols[i].split(getDC);
+		for(var i_h = 0; i_h< tmpHead.length; i_h +=1){
+		   tmpRow[tmpHead[i_h]] = tmpCols[i][i_h]; 
+		   if(!isNaN(tmpRow[tmpHead[i_h]])){ tmpRow[tmpHead[i_h]] = 
+			parseFloat(tmpRow[tmpHead[i_h]]);}} 
+		tmpCols[i] = tmpRow; }
+  return tmpCols; }
+function ROWS_FIND( getRows, getCallback){ // returns 1 item or null
+	//callback=function(item){return true(null/false for not match)}
+	for(var i=0; i< getRows.length; i+=1){ 
+		if(getCallback(getRows[i])==1){return getRows[i];}} }
+function ROWS_NORMALIZE(getRows, getFillBlanksWith){ //based on 1st row
+  var tmpH = Object.keys(getRows); //head
+  for(var i=0; i< getRows.length; i+=1){ for(var j=0; j<tmpH.lenth; j+=1){ 
+	if(getRows[i][tmpH[j]]==undefined){ 
+	    getRows[i][tmpH[j]] = getFillBlanksWith;}}} return getRows;}
+/////////////////////////////////////////////
+//BELOW WORK LIKE BUILTIN ARRAY filter/map/sort/etc. 
+//		EXCEPT HAVE: 
+//	-- 'CONFIG' added as optional inputs to END of callback,
+//		 so can inject stuff to callback!
+//	-- index/obj-key AFTER optional config (n callback)for ALL but sort
+//	-- EDIT, OBJS work as input for all but SORT- runs on VALUES
+//		(think a bunch of named configs to run cmd via MAP on)  
+//	(USE BUILT-INS LESS NEED THE INJECTION!)
+function ROWS_FOREACH(getRows, getCallback, getConfig_OPTIONAL){
+	//SEE ABOVE DOC
+        if(! Array.isArray(getRows)){  var k=Object.keys(getRows);
+	  for(var i=0; i<k.length; i+=1){ 
+		getCallback(getRows[k[i]], getConfig_OPTIONAL, k[i]);} }
+	for(var i=0; i< getRows.length; i+=1){ 
+		getCallback( getRows[i], getConfig_OPTIONAL, i);}}
+function ROWS_MAP(getRows, getCallback, getConfig_OPTIONAL){//SEE ABOVE DOC 
+  if(! Array.isArray(getRows)){ var tmpOut={}; var k=Object.keys(getRows);
+	for(var i=0; i<k.length; i+=1){ tmpOut[k[i]]=
+		getCallback(getRows[k[i]], getConfig_OPTIONAL, k[i]);} 
+	return tmpOut; }
+  var tmpO = []; for(var i=0;i< getRows.length; i+=1){
+      tmpO[i]=getCallback( getRows[i], getConfig_OPTIONAL, i);}return tmpO;}
+function ROWS_REDUCE(getRows, getCallback, 
+	getAccumlator, getConfig_OPTIONAL ){ //SEE ABOVE DOC 
+    if(! Array.isArray(getRows)){  var k=Object.keys(getRows);
+	  for(var i=0; i<k.length; i+=1){ getAccumlator = getCallback(
+		getAccumlator, getRows[k[i]], getConfig_OPTIONAL, k[i]);}
+	  return getAccumlator; }
+    for(var i=0;i< getRows.length; i+=1){ 	getAccumlator =
+	 getCallback( getAccumlator, getRows[i], getConfig_OPTIONAL, i );}  
+    return getAccumlator; }
+function ROWS_FILTER(getRows, getCallback, getConfig_OPTIONAL){
+	//SEE ABOVE DOC
+   if(! Array.isArray(getRows)){ var k = Object.keys(getRows);
+	var tmpO={};for(var i=0;i< k.length; i+=1){ 
+	 if(getCallback( getRows[k[i]],getConfig_OPTIONAL, k[i])){
+		tmpO[k[i]] = getRows[k[i]]; }} return tmpO; } 
+   var tmpO=[]; for(var i=0;i< getRows.length; i+=1){
+	if(getCallback( getRows[i], getConfig_OPTIONAL, i)){
+      	tmpO.push(getRows[i]); }}  return tmpO;}
+
+function ROWS_SORT(getRows, getCallback,getConfig_OPTIONAL){//SEE ABOVE DOC
+    return getRows.concat().sort( function(a,b){ 
+		return getCallback(a,b,getConfig_OPTIONAL);}); }
+
+function ROWS_IS_STRING_A_JSON( getJSON ){ 
+	try{ JSON.parse(getJSON); return 1;}catch(e){ return 0;}}
+
+//////////////////////////////////////////////
+//////////END pipe_rows//////////////////////////
+//////////////////////////////////////////////
+/////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</html>
