@@ -1,0 +1,637 @@
+<!DOCTYPE html> <html><body><script><!-- :b: WATCHLIST:b:-->
+var divs_fileLoadIfChecked=["links", "L2", "L3", "L_B", "L0", "L_B2",
+	"LL2L_B", "LL_B", "LLL_B"];
+// search "forceFileLoad" -it's a div
+
+//////////////////
+// WATCHLISTS ARE DEPRECIATED
+var div_watchlist_txt = `
+DEPRECIATED, use in SCRAPITY (watchlist there is in-code)
+
+`.trim();
+var div_buylist_txt = `
+
+
+`.trim();
+var div_buylist_winslosses_txt = // Oo-losses Xx-wins caps=bigger '='-even
+`(2000$/buy)====X=O====o=x=xx=x==x `;
+
+var div_SPY_DITM_trading_win_rate= // Oo-losses Xx-wins caps=bigger '='-even
+`(2000$/buy):`;
+
+var div_mean_reversion_win_rate=  // Oo-losses Xx-wins caps=bigger '='-even
+`(2000$/buy):`; 
+var div_mean_reversion_trading_bylist_txt = ``;
+
+
+////
+/////////////////
+// IGORING PENNY STOCKS FOR NOW!!!
+///////////////////////////////////
+var div_pennystocks_txt = ` IGNORING FOR NOW 
+`.trim();
+var div_pennyst_winslosses_txt = // Oo/Xx/=---win/loss/even caps bigger
+`(5$/buy)`; //EG --- xx==oo
+
+//NEED TO localStorage.clear() OR THIS WILL -NOT- get UPDATED
+//	(so can be edited in-browser)
+var div_rotate_cur_item_default_links ="https://www.marketbeat.com/stocks/NYSE/REPLACE_THIS/forecast/,  https://finviz.com/quote.ashx?t=REPLACE_THIS";
+
+
+//NEED TO localStorage.clear() OR THIS WILL -NOT- get UPDATED
+//	(so can be edited in-browser)
+var div_links_txt = 
+`https://duckduckgo.com/?t=h_&q=REPLACE_THIS&ia=web
+https://finviz.com/quote.ashx?t=REPLACE_THIS&p=w
+https://finviz.com/quote.ashx?t=REPLACE_THIS&p=w&ty=ea
+----- ABOVE is EARNINGS
+https://finviz.com/quote.ashx?t=REPLACE_THIS&ty=si&p=d&b=1
+----above is SHORT INTEREST and WEEKLY (short for pennys!)
+https://finviz.com/screener.ashx?v=211&p=w&f=an_recom_buybetter,fa_netmargin_pos,geo_usa,sh_price_o15,ta_highlow52w_a30h,ta_rsi_nos50,ta_sma20_pa,ta_sma200_sb50,ta_sma50_sb20&o=-rsi&r=REPLACE_THIS1
+---- above is RSI sorted, 1st 10 pages most relevent
+https://stockanalysis.com/trending/
+https://stockcharts.com/h-sc/ui?s=REPLACE_THIS&id=p12205699277
+https://swaggystocks.com/dashboard/wallstreetbets/stocks-list
+https://www.marketbeat.com/stocks/NASDAQ/REPLACE_THIS/earnings/
+https://www.nasdaq.com/market-activity/stocks/REPLACE_THIS/earnings
+https://stockcircle.com/best-investors
+https://stockcircle.com/growth-investors
+https://www.marketbeat.com/stocks/NYSE/REPLACE_THIS/forecast/
+https://www.nasdaq.com/market-activity/stocks/REPLACE_THIS/analyst-research
+--- LINK IS BANANA 325SMA-CHART (PLUS EXTREME RSI), CHANGE STOCK TO SEARCH
+https://stockcharts.com/h-sc/ui?s=SPY&id=p12205699277
+---(any thing that met cut, combine /w cur watchlist & prune)
+https://finviz.com/screener.ashx
+--- Tradingview, log in (recreation email) and use 'rewind' to back-practice
+---(this is for DAILY CHARTS of a list of stocks)
+https://finviz.com/screener.ashx?v=211&t=REPLACE_THIS
+--------SPY 200 vs 10 sma golden cross (itm options style! (use classic stockcharts)):
+https://schrts.co/kWMrMMxU
+https://www.timothysykes.com/best-penny-stocks-under-3-to-buy-today/
+https://finviz.com/
+https://stockcircle.com/transactions
+----ZWEIG SENTIMENT TEST NOTES: INVERSE INDICATOR AT EXTREMES ONLY, CALL/PUT, BULLISH ARTICLES VS BEARISH (COUNT BEAR/BULLISH IN NXT LINK!)
+https://duckduckgo.com/?q=use_vim_speedread_on_newsfeed
+https://finviz.com/news.ashx?v=2
+https://old.reddit.com/r/Economics/
+---(this is for WEEKLY CHARTS of a list of stocks)
+https://finviz.com/screener.ashx?v=211&t=REPLACE_THISp=wdfhjhg
+https://etfvest.com/list/best-etfs-1-month/
+https://finviz.com/screener.ashx?v=211&p=d&o=sma20&t=TLT,TIP,SPY,IWM,BITO,GLD,SLV,UUP,VNQ,DBA,DBC,MORT
+https://finviz.com/screener.ashx?v=211&p=d&o=sma20&t=XLU,XLK,XLRE,XLB,XLI,XLV,XLF,XLE,XLP,XLY,XLC
+https://www.allsides.com/unbiased-balanced-news
+https://www.reuters.com/
+https://finance.yahoo.com/quote/REPLACE_THIS/key-statistics?p=REPLACE_THIS
+https://finance.yahoo.com/quote/REPLACE_THIS/financials?p=REPLACE_THIS
+--GOOGLE O'NEILS 'SUPER MODEL' FOR WHEN TO BUY
+https://currentmarketvaluation.com/models/buffett-indicator.php
+https://www.longtermtrends.net/market-cap-to-gdp-the-buffett-indicator/
+https://www.quiverquant.com/sources/senatetrading
+https://ycharts.com/indicators/us_investor_sentiment_bullish
+https://www.barchart.com/economy/interest-rates
+https://www.gasbuddy.com/charts
+https://www.nasdaq.com/market-activity/earnings
+https://truflation.com/dashboard?feed=us-inflation-rate
+https://finviz.com/map.ashx?t=etf&st=w4
+https://finviz.com/map.ashx?t=geo&st=w4
+https://finviz.com/map.ashx?t=sec&st=w4`;
+
+
+
+function setHTMLByID(getIdTxt, getTxt){
+	document.getElementById(getIdTxt).innerHTML = getTxt;
+	document.getElementById(getIdTxt).value =getTxt; }
+
+
+
+</script>
+<!-- #################################################-->
+<!-- ################:b: HEADER BUTTONS:b:#############-->
+<!-- #################################################-->
+<input id="saveC" hidden> </input>
+
+<div id="topButtons">
+<!-- using this is a place a var is stored, as system saves ALL inputs!--> 
+
+<button onclick="myKeyFunct(myProxies['left'])"><h1> LEFT </h1> </button>
+<button onclick="myKeyFunct(myProxies['right'])"><h1> RIGHT </h1> </button>
+<button onclick="myKeyFunct(myProxies['>'])"><h1> \>NxtLink </h1> </button>
+<button onclick="myKeyFunct(myProxies['<'])"><h1> \< PrevLink</h1></button>
+<button onclick="myKeyFunct(myProxies['/'])"><h1> __/__ </h1> </button>
+<button onclick="myKeyFunct(myProxies['up'])"><h1> UP </h1> </button>
+<button onclick="myKeyFunct(myProxies['down'])"><h1> DOWN </h1> </button>
+<button onclick="myKeyFunct(myProxies['escape'])"><h1> ESCAPE</h1></button>
+<BR>LAST JUMPED_PAGE:<input size=75  id="inputLastJumped"></input>
+<br>  
+<button onclick="window.location='SCRAPITY.js';"><h1> OPEN SCRAPITY.JS TXT (Paste_backup_data->) </h1> </button>
+<textarea id="textAreaScrapitybackup" rows="3" cols="30" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+
+<button onclick="hideE('watchL')"><h5> show watchlist(old)<BR>USE_SCRAPITY </h5> </button>
+<button onclick="hideE('routine')"><h3> show routine </h3> </button>
+<button onclick="hideE('topScrapBk')"><h3> show scrapbook</h3></button>
+<button onclick="hideE('controls')"><h3> show controls</h3></button>
+<button onclick="hideE('BuyCheckListL')"><h3> show BuyChecklist</h3> </button>
+<button onclick="SaveLoad2txt();"><h3>SaveLoad2txt/Reset</h3> </button>
+ </div>
+
+<!-- ####################################################-->
+<!-- ################:b: SCRAPBOOK BUTTONS:b:#############-->
+<!-- ####################################################-->
+<B> LOAD WATCHLIST/LINKS ONLY FROM FILE(set to '1')</B>
+<input id="forceFileLoad" onkeyup='mySaveLoadInputs(1);' value="1"></input>
+<B>ERASE 1 if online only(no html-edit)</B>
+
+<div id="topScrapBk" data-h="0" style="display:none">
+
+<BR>SCRAPBOOKS: saved in browser <B>ARROWS still LINK IN BOXES</B> use mouse<br>
+<textarea id="textareaScarpbook" rows="4" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea>
+<br>
+<textarea id="textareaScarpbook2" rows="4" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea>
+
+<BR> 
+<BR><button onclick="myKeyFunct(myProxies['down'])">
+DOWN_KEY:Rotate cur-item with(itterate/wEarnings):</button>
+<input size=65 onkeyup='mySaveLoadInputs(1);' id="rotate_item" > </input>
+<script> setHTMLByID("rotate_item", div_rotate_cur_item_default_links); 
+	</script>
+</div>
+
+<!-- ####################################################-->
+<!-- ################:b: WATCHLISTS BUTTONS:b:############-->
+<!-- ####################################################-->
+
+<div id="watchL" data-h="0" style="display:none">
+<h2><HR><HR><HR> WATCHLIST DEPRECIATED:<BR><BR><BR> 
+USE SCRAPITY FOR WATCHLIST<BR><BR> <HR><HR><HR></h2>
+
+<button onclick="prompt('list(use with SCRAPITY):', breakoutlistCreateFromTagged(['L0','L2','L3']))">
+ <b>Gen Breakout list from watchlists format:' ~stock~043PRICE~ <b> </button>  
+<br>
+<button  onclick="openWatchListAs('L2')">
+<h3>  WATCHLIST(CHECK WEEKY CHART:WAIT & WATCH (TCKR/# buy-ins) finviz financials=earnings date</h3>    
+WEEKLY-CHART FIRST --REMOVE @ 15% DROP -- BEST DROP LEAST IN BAD MARKET -- STOCKCHARTS 4 RSI 
+<br><br>
+</button> <BR>
+<textarea id="L2" rows="3" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("L2", div_watchlist_txt); </script>
+
+
+
+
+<button  onclick="openWatchListAs('L3')"> 
+
+   <h3>	BOUGHT STOCKS(MAX 4):2-5% stop, scaling=2x/HALF
+	<br>FIRST CHANCE:sell ~1/2 to 3/4 OR RAISE stop(to secure BREAK EVEN)</h3>  
+ =======SPY/buyat/stop/EARNINGS/CHECKLISTcount(below)
+---------EG:--SPY/134.50/136.0/7-21/p12
+<br><br></button><BR>
+<textarea id="L3" rows="3" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("L3", div_buylist_txt); </script>
+
+<!-- CURRENT RECORD, xX=win, oO=loss (upper case=big) '=' is break even-->
+<!-- ===========RECORD FOR BUYS============================-->
+ <b>RECORD:</b> 
+<textarea id="L_B" rows="2" cols="80" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("L_B", div_buylist_winslosses_txt); </script>
+
+
+<HR>
+
+<h3><b>SPY DITM (10sma 50sma gold cross) WIN RATE:</b>
+<BR> 
+<textarea id="LL2L_B" rows="2" cols="80" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("LL2L_B", div_SPY_DITM_trading_win_rate); </script>
+
+
+<HR>
+
+
+<h3>BOUGHT MEAN REVERSION, EDIT BELOW URL WITH TICKER 2 CHECK EXTREME<BR>
+	https://stockcharts.com/sc3/ui/?s=SPY&id=p46726883138 </h3> 
+<textarea id="LL_B" rows="2" cols="80" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("LL_B", div_mean_reversion_trading_bylist_txt); </script> <br>
+ <b>RECORD:</b> 
+<textarea id="LLL_B" rows="2" cols="80" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("LLL_B", div_mean_reversion_win_rate); </script>
+
+<HR>
+
+<br> <br> <br> <br> <br> <br> 
+<HR>
+ 
+<button  onclick="openWatchListAs('L0')">
+<h3>PENNY STOCKS(SEARCH BROKEOUT 15-30 DAYS AGO. '+'=bought):
+<br>(10-15%-- TRAILING STOPS, LOW-VOL-(check FINIZ short-interest tab) )
+<!-- ===========PENNY STOCKS============================ --></h3></button>  <br>
+<textarea id="L0" rows="3" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("L0", div_pennystocks_txt); </script>
+<!-- CURRENT RECORD, xX=win, oO=loss (upper case big) = is break even-->
+<!-- ===========RECORD FOR PENNY STOCKS=========================-->
+ <b>RECORD: <b> 
+<textarea id="L_B2" rows="2" cols="80" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea> <br>
+<script> setHTMLByID("L_B2", div_pennyst_winslosses_txt); </script>
+
+
+<br><br><br><br>
+</div>
+
+
+<!-- ########################################### -->
+<!-- ########################################### -->
+<!-- ####### End main fill-in-html part ######## -->
+<!-- ########################################### -->
+<!-- ########################################### -->
+
+
+<!-- :b: BUY_CHECKLIST_NOTES:b:-->
+ <div id="BuyCheckListL" data-h="0" style="display:none"  >
+<textarea id="textarea_buycheckl" rows="30" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'>
+BUY CHECKLIST (not using that much... maybe a point-count?) 
+PRACTICE ON TRADINGVIEW REPLAY OCCASIONALLY! 
+AND SCALE IN/ OUT BY 1/2s!!!
+https://www.youtube.com/watch?v=MzygRZA2FFI 
+(write the following in uppercase nxt to stock-buy to acnowledge if true for stock, 1 letter per acnowledgement EDIT: now mostly done mental)
+ S - I can do Serious DAMAGE to myself with this trade
+	(acknowledge it for EVERY PURCHASE, from Mark Minervini)
+ H - High volume during breakout?
+ $ -  NO BOTTOM HUNTING!!! Do NOT BUY ON FIRST SUPERNOVA
+ P2 - 0-9 play quality (how GOOD does it LOOK) higher is better
+ C - Cheat, not breakout buy (lower case for 'no')
+ W - WEEKLY volatility Contraction (look at weekly pattern FIRST)
+ D - DAILY volatility CONTRATION (lower case of 'no')
+		NOTE: for this, volume should be HIGHER for breakout
+ G - Volume spikes(daily) for GREEN days (lower case for 'no')
+		AND mostly GREEN days 
+ V - high volatility(bouncy), v for low (low is better if going up)
+ 	(sell 1/2 FAST 4 breakeven & SMALLER POSITIONS FOR HIGHER VOL)
+ R - Already had natural reaction(bounce down, lower case for no)
+ B - Bounced back FAST if dropped (bullish, lower case for no)  
+ H123 - Height( of PREVIOUS base to this one. This will give 
+	a good idea of how much it will move)
+ K2 - number of peaKs in rise (normally 3)
+ N2 - number of buy-in for this stock, planning on 3 'tries'/stock
+ ---- COUNT THE POSITIVE, USE AS A SCORE FOR 'GOOD BUY'('checklist count') above
+ ==========================================================
+ =============== FOR PENNY STOCKS
+ ==========================================
+ -check short interest
+ - check daily volume
+ - see if looks like mvc
+ - check FINVIZ short interest/financials (top of stock page, 
+     upper righthand has a bar for bringing these up
+ - (THIS IS A WORK IN PROGRESS, EXPECT LOSSES WHILE LEARNING)
+
+
+
+==============================================================
+ =====STOPS ARE TRIGGERED AT MARKET PRICE, CHECK THAT NOT bid-ask!!!
+===============STOPS: been using ~1 atr, well see if that works.
+==================EDIT: Peter brandt says 'first breakout day low'
+========================= (reverse for shorting)- another stop-point. 
+========================  OK, brandt scales position down if this fails big.
+===============MOVE_STOPS_TO_BREAKEVEN_FAST: protection.(WORKS!
+=========================EDIT: (TESTING) SELLING 1/2 FAST (5%?) AND
+==========================USING that to drop break even for remaining!
+==============================(reflect it, so drop stop TO -5% if up 5%)
+===============EARNINGS: looks like holding going INTO earnings 
+================ want pre-existing gains... IDK about purchases ...
+================== first breakout AFTER earnings.
+
+</textarea>
+</div>
+
+
+<!-- :b: MINI_CODE_FOR_BUTTONS :b:-->
+<script> function replaceChars(getStr, getCharsToReplace){
+   for( var i=0; i< getCharsToReplace.length; i+=1){
+	getStr = getStr.split(getCharsToReplace[i]).join("")
+   } return getStr;}
+ function dispAsCsv_FIRST_SLASH( getElementId){ 
+   var tmpS = document.getElementById(getElementId);
+   if(tmpS.nodeName == "TEXTAREA" || tmpS.nodeName =="INPUT"){
+	tmpS = tmpS.value;
+   }else{ tmpS = tmpS.innerHTML; }
+   tmpS = tmpS.split("\n").join(" ").split("  ").join(" ").split(" ");
+   for(var i=0; i< tmpS.length; i+=1){tmpS[i] = tmpS[i].split("/")[0];}
+   return replaceChars( tmpS.join(" "),"1234567890./*?-%!+_~").split(" ").join(", ");
+  }
+  function dispAsCsv( getElementId){ var outStr = replaceChars( 
+     document.getElementById(getElementId).innerHTML,"1234567890./*?-%!+_~");
+    prompt("", outStr.split("  ").join(" ").split(" ").join(", "));}
+  function hideE( getElementId){
+	document.getElementById("savedOpenTab").value
+		=getElementId.trim();
+  	var mydiv = document.getElementById(getElementId);
+	var tmpN = document.querySelectorAll('[data-h]');
+	for(var i=0;i< tmpN.length; i+=1){
+		if(tmpN[i].id != getElementId){
+			tmpN[i].style.display = 'none'; } }
+  	if (mydiv.style.display === 'block' || mydiv.style.display === ''){
+    		mydiv.style.display = 'none'; }else{
+    		mydiv.style.display = 'block' } 
+	mySaveLoadInputs(1);}
+ function openWatchListAs( getElementId){
+	if(!confirm("OK too show in screener,CANCEL for show as csv")){
+		return prompt("",dispAsCsv_FIRST_SLASH(getElementId));}	
+	if(!confirm("OK for weekly,CANCEL daily")){
+		getWeekly_not_daily =0;}else{getWeekly_not_daily =1;}
+  	var outStr =  dispAsCsv_FIRST_SLASH(getElementId);
+	 var itterate_url = 
+	"https://finviz.com/screener.ashx?v=351&p=w&t=";
+	if(!getWeekly_not_daily){itterate_url= 
+		"https://finviz.com/screener.ashx?v=351&p=d&t=";}
+	mySaveNLoad_input_fields_to_localStorage( 1); //save
+	window.location.href = itterate_url + outStr;
+ }
+ function breakoutlistCreateFromTagged(b){//getDocTxtAreaBreakoutIds){
+	var tmpOutList = [];
+	for(var i=0; i< b.length; i+=1){
+		b[i] = document.getElementById(b[i]).value.split("~");
+		for(var j=0; j<b[i].length; j+=3){
+		   if( b[i][j+1] != "" && b[i][j+1] != null 
+			   && b[i][j+2] != "" && b[i][j+2] !=null){
+			tmpOutList.push( b[i][j+1], b[i][j+2]);	} }}
+	return tmpOutList.join("/") + "/"; 	
+ }
+
+</script>
+</div>
+
+
+
+<!-- :b: ROUTINE :b:-->
+<div id="routine" data-h="0" style="display:none"> 
+<textarea id="textarea_routine" rows="30" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'>
+ROUTINE(AFTER HOURS ONLY, EDIT: no longer doing this...): 
+ ----DAILY: draw- to help relax
+ ----------- if I loose my cool, it's over. 
+ --- NO FORCING TRADES, if I miss a couple that's OK 
+ ----------- as long as I'm not making stupid moves. 
+ --- 1/day- CHECK WATCHLIST (penny and others)
+------------- EDIT- now JUST scrapity, it IS the watchlist. 
+ --- 1/day- SCRAPITY - scans penny stocks/minervini stuff
+ ---------------- May need to add top 2 minervini-scan pages. 
+ --- 1/week- SCRAPITY READOUT/SCREEN- prev week (SCRAPITY
+ ------------- screens out repeat stocks till 45 days.
+ ----1/week: FULL MARKET SEARCH (for condition,go through links '>.)
+ --- TWEAKING: this gives top 20 rsi stocks/day, may have to 
+ ----------- move to top 40, will take an extra ~5-10 seconds. 
+ -----------  (SCRAPITY is wild...)
+ ---- TWEAKING FULL SYSTEM:
+ --------- should assess monthly and see if can do better.   
+
+</textarea>
+</div>
+
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- ============= ABOVE CAN BE DELETED WITHOUT EFFECTING BELOW === -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+
+
+
+<!-- :b: CONTROLS :b:-->
+<div id="controls" data-h="0" style="display:none">
+<BR><B> NOW can quick-browse with duckduckgo (1st list item, use '!')</B> 
+<BR>-----------------------------
+<BR>--------CONTROLS:
+<BR>----------------------------------
+<BR>ESCAPE: reload page to itterate, and itterator type!
+<BR>UP: (changed 6/30/25)- go to current itterate page (no movement)
+<BR>DOWN:(changed 6/30/25)-rotate cur-item with sub-links(under SCRAPBOOKS)
+<BR>ALT+LEFT (in most browsers) BACK, so from redirected page, return here
+<BR>---- (can use same hand to press both buttons, or one hand on ALT)
+<BR>RIGHT: itterate up by one, go to itterate page.
+<BR>LEFT: itterate down by one, go to itterate page
+<BR>\: prompts secondary links(below), and asks to fill in search prompt
+<BR> \< and \> - back and forward from secondarly link (selected above)
+<BR> "--" = comment for secondary links (start line) or gotto url/search 
+</div>
+<BR>#################################################################################################
+<BR>#################################################################################################
+
+
+<!-- :b: ITTERATOR VARS :b:-->
+<BR>Itterateable page/item number
+<input id="pageItemNumb" value='-1'></input>
+<BR>WebPage Running (ESC to change, set on runtime)
+<input id="pgItterateOverURL" value='-1'></input>
+<BR>Itterate list items to inject URL, space separated
+<BR><input id="pageItterateOverListpg" value='' size=100></input>
+<br>
+
+
+<!-- :b: LINKS :b:-->
+<br>separated URLs 4 prompts("REPLACE_THIS" will be replaced by prompt input)
+<br><textarea id="links" rows="30" cols="100" 
+	onkeyup='mySaveLoadInputs(1);'> </textarea>
+<script> setHTMLByID("links", div_links_txt) </script>
+
+<BR>
+<BR>
+<input id="savedOpenTab" hidden> </input>
+PURPOSE: add keyboardcontrols to arbitrary web page navigation (somewhat)
+<BR>            EDIT PAGE AND CHANGE SRC-LINKS IF NEEDED, NO EXTERNAL CODE
+
+<!-- :b: CODE :b:-->
+<script>
+  //prompt is terminal input, gets one word at a time for replaces
+  // can be one line entry, and will ask for replace strs if not given
+  function Prompt_menu( getTxt, getSrches_2_replace,getMvLnk1_neg1_orNull){ 
+	//getSrches_2_replace= list,optional
+	if(getSrches_2_replace == undefined){ getSrches_2_replace = [];}
+	var inject_these = [];      getTxt = getTxt.trim().split("\n");
+	if(getTxt.length == 1){ getTxt = getTxt[0];
+	}else{ var choices ="-LAST CHOICE:  "+
+		document.getElementById("saveC").value
+		+"\n" +"ENTER 'a/b/c' + REPLACE '"
+	   +getSrches_2_replace+"' EG: 'a ati qqq'(-- & 'ENTER'\n ";
+	  if(getSrches_2_replace.length ==0){ choices ="ENTER 'a/b/c'\n";}
+	  var options = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJK";
+	  for(var i=0; i< getTxt.length; i+=1){ choices =
+		 choices + "\n" + options[i] +"---"+getTxt[i];}
+	  if(getMvLnk1_neg1_orNull != null){ var results =
+	    options.charAt(options.indexOf(
+		document.getElementById("saveC").value)+ 
+		getMvLnk1_neg1_orNull).split(" ");
+	  }else{var results = prompt( choices).split(" ");}
+          document.getElementById("saveC").value = results[0];
+		console.log(document.getElementById("saveC").value);
+	  if(options.indexOf(results[0])!= -1 &&options.indexOf(results[0]) 
+	    < getTxt.length){ getTxt = getTxt[options.indexOf(results[0])];
+		results.shift(); inject_these = results;
+  	  }else{ return; }}
+	for(var i=0; i< getSrches_2_replace.length; i+=1){
+	  getTxt = getTxt.split( getSrches_2_replace[i] );
+	  if( getTxt.length == 1 ){ getTxt= getTxt.join(""); continue;
+	  }else{ if(inject_these[i] == null){ 
+	    inject_these[i] = prompt( "replace '" + getSrches_2_replace[i]+
+	      "' with input for:\n" + getTxt.join(getSrches_2_replace[i]));
+	  } getTxt= getTxt.join(inject_these[i] ); } }
+	return getTxt;  }
+
+  function Prompt_n_Link(a, b, c){ //ONLY WORKS IN KEYPRESS/BUTTON EVENT!!!
+    mySaveNLoad_input_fields_to_localStorage( 1);//save
+    var ret=Prompt_menu(a,b,c);if(ret != null){window.location.href = ret;}}
+
+
+var myProxies= { // for use with 'myKeyFunct'
+	"up":{keyCode:38, key:"Up" }, "down":{keyCode:40, key:"Down" },
+	"left":{keyCode:37, key:"Left" },"right":{keyCode:39, key:"Right"},
+	"space":{keyCode:32, key:"Space" }, "/":{keyCode:1,key:"/"},
+	">":{keyCode:1, key:">" }, "<":{keyCode:1, key:"<" }, 
+	"escape":{keyCode:1, key:"Escape" }};
+document.addEventListener("keydown", myKeyFunct);
+function myKeyFunct(event){ 
+  var KEYCODES = {right:39, down:40, left:37, up:38, space:32};
+  //pulling first link out of 
+  var pg_i = document.getElementById("pageItemNumb"); 
+  var pg_itter_list = document.getElementById("pageItterateOverListpg");
+  var pg_links = document.getElementById("links");
+  var key = event.keyCode; 
+  var itterate_url = document.getElementById(
+	"pgItterateOverURL").value.trim();
+
+   //itterating links
+   if( event.key == ">" ){ 
+	Prompt_n_Link( document.getElementById("links").value, null,1);}
+   if( event.key == "<" ){ 
+	Prompt_n_Link( document.getElementById("links").value, null,-1);}
+
+  // setting up itterate URL (first run, or 'n' pressed)
+  if ( (event.key == "Escape" ) || (parseInt(itterate_url) == -1 && 
+   (key == KEYCODES.right||key == KEYCODES.left||key == KEYCODES.up))){
+	var ret= null
+	while(ret==null){
+	  var ret=Prompt_menu(pg_links.value);}
+	document.getElementById("pgItterateOverURL").value = ret;
+	 pg_itter_list.value = 
+	  prompt("Current comma-separated list:"+
+		"replaces 'REPLACE_THIS' in search", pg_itter_list.value);	
+	pg_i.value = -1;
+	mySaveNLoad_input_fields_to_localStorage( 1); //save
+  }
+  // Itterate over numebers
+  if(key == KEYCODES.right || key == KEYCODES.left||key == KEYCODES.up){
+    if(pg_itter_list.value.trim() ==""){
+  	if (key == KEYCODES.left){ pg_i.value = parseInt(pg_i.value) -1;}
+  	if (key == KEYCODES.right){ pg_i.value = parseInt(pg_i.value) +1;}
+  	var url_itter_mod= parseInt(pg_i.value);
+  	if (parseInt(pg_i.value)<0){ pg_i.value = 0; }
+    }else{ //////////////////itterate over list, reverse itterating
+	var url_itter_mod= pg_itter_list.value.trim().split(",");
+	var n = parseInt(pg_i.value);
+	if(key==KEYCODES.left){if(n>0){n-=1;
+	}else{n=url_itter_mod.length-1;} }
+	if(key==KEYCODES.right){if(n<url_itter_mod.length-1){n+=1;
+	}else{n=0;}} 
+	pg_i.value = parseInt( n);
+	url_itter_mod = url_itter_mod[ parseInt(pg_i.value)] 
+    	url_itter_mod = url_itter_mod.trim()}	  
+  }
+
+
+  var itterate_url = document.getElementById(
+	"pgItterateOverURL").value.trim().split("REPLACE_THIS");
+  //rotates over item on in 'left'/'right' with "rotate_item" links.
+  if (key == KEYCODES.down) { 
+	var pg_rot = document.getElementById("rotate_item");
+	var tmpList = pg_rot.value.split(",");
+	tmpList.push(tmpList.shift() );
+	var tmpList_i = tmpList[0].trim(); pg_rot.value =tmpList.join(",");
+	//rotating through 
+	var url_itter_mod= pg_itter_list.value.trim().split(",");
+	window.location.href = tmpList_i.split("REPLACE_THIS").join(
+		url_itter_mod[ parseInt(pg_i.value) ]); }
+  //itterator
+  if (key == KEYCODES.right || key == KEYCODES.left||key == KEYCODES.up){ 
+       document.getElementById("inputLastJumped").value =  
+		itterate_url.join(url_itter_mod );
+	Prompt_n_Link(itterate_url.join(url_itter_mod )); }
+  // for links:
+  if (event.key == "/") { Prompt_n_Link( //pulled out 1st link already
+    document.getElementById("links").value, [ "REPLACE_THIS"]); } 
+}; 
+
+var myLOCAL_STORAGE_VAR = "myStockScreenerSav";
+
+/////////////// SAVES ALL 'textareas' AND 'inputs' WITH UNIQUE id 
+////		ALSO: 
+///	(makes loading from web ONLY possible, 
+///		CAN TURN OFF WITH input"forceFileLoad"==1 for divs in
+///			divs_fileLoadIfChecked-ids
+function mySaveNLoad_input_fields_to_localStorage( getSaveNotLoad){
+	var tmpElm = document.querySelectorAll('input, textarea');
+	if(getSaveNotLoad){ //save
+		var tmpTxt_list = {};
+		for(var i=0; i< tmpElm.length; i+=1){
+			if(tmpElm[i].id != null){
+			tmpTxt_list[tmpElm[i].id] = tmpElm[i].value;} }
+		
+		localStorage.setItem(myLOCAL_STORAGE_VAR, 
+			JSON.stringify(tmpTxt_list) );
+	}else{ //load
+		var tmpText = localStorage.getItem(myLOCAL_STORAGE_VAR );
+
+		if(tmpText == null){
+		  mySaveNLoad_input_fields_to_localStorage( 1); //saving
+		  return;}
+		tmpText = JSON.parse(tmpText);
+		for(var i=0; i< tmpElm.length; i+=1){
+			//set '1' to avoid divs_fileLoadIfChecked
+			if(tmpElm[i].id != null 
+			   && tmpText[tmpElm[i].id] != null
+			   && 
+			 ( -1 == divs_fileLoadIfChecked.indexOf(
+					tmpElm[i].id)
+				|| "1" !=document.getElementById(
+					"forceFileLoad").value.trim())){
+					
+				tmpElm[i].value = tmpText[tmpElm[i].id]; }}
+}	}
+
+function SaveLoad2txt(){
+	var tmpGotStorage = localStorage.getItem( myLOCAL_STORAGE_VAR);
+	if( null == tmpGotStorage  ){ tmpGotStorage= ""; }
+	var tmpGotStorage = prompt("COPY VARS IN FIELD TO SAVE,\n"
+		+"PASTE TO RESTORE, Esc/cancel to Cancel.\n"
+		+"\n"
+		+"TYPE 'CLEAR' TO clear local-var and reload page.",
+		tmpGotStorage);
+	if( tmpGotStorage== null || tmpGotStorage.trim()== ""){ return;}
+	if(tmpGotStorage == "CLEAR"){
+	  if( null != prompt(
+		"RESET DEFAULTS: are you sure? Click OK to confirm.")){
+			localStorage.clear();
+			window.location.href = ""+window.location.href;
+	}	return; }
+	try {
+ 		localStorage.setItem( myLOCAL_STORAGE_VAR, 
+			tmpGotStorage );
+		mySaveNLoad_input_fields_to_localStorage( 0);//load
+	}
+	catch (e) {
+		prompt("loading to localStorage failed. Try again?");
+	}
+}
+
+var mySaveLoadInputs = mySaveNLoad_input_fields_to_localStorage;
+mySaveNLoad_input_fields_to_localStorage( 0);
+hideE( document.getElementById("savedOpenTab").value.trim());
+
+</script></body></html>
