@@ -53,6 +53,10 @@ var NO_PATTERN_YET= -1;
 // 		buy protective puts, hopefully it covers most of 
 // 		LEAP cost. (this way, if bought ATM, profits start
 // 			at 50% per stock movement, vs OTM's crazy ramp)
+// -- PROTECTIVE PUTS PLAY: 
+//		I can kinda roll these up and down to make money
+//		off of bouncy stocks, can sell covered calls too. 
+//		(ONLY if I think it's BOUNCY/ overbought )
 
 
 var BREAKOUTS_CUR_TRADES=[
